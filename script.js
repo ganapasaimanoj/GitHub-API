@@ -2,7 +2,7 @@ document.querySelector('button').addEventListener('click', fetchDetails);
 
 var counter = 1;
 
-function fetchDetails(e){
+function fetchDetails(e) {
     e.preventDefault();
 
     fetch('https://api.github.com/users')
@@ -11,30 +11,30 @@ function fetchDetails(e){
         .catch(error => console.log(error));
 }
 
-function displayData(jsonData){
+function displayData(jsonData) {
     console.log(jsonData);
-    jsonData.forEach(function(user){
-    
-    var sno = counter;
-    var name = user.login;
-    var id = user.id;
-    var isAdmin = user.site_admin;
-    var profile = `<img src="${user.avatar_url}">`;
-    var githubUrl = user.html_url;
+    jsonData.forEach(function (user) {
 
-    var tr = 
+        var sno = counter;
+        var name = user.login;
+        var id = user.id;
+        var isAdmin = user.site_admin;
+        var profile = `<img src="${user.avatar_url}">`;
+        var githubUrl = user.html_url;
+
+        var tr =
             `<tr>
-                <td>${sno}</td>
+                <td class='d-none d-sm-table-cell'>${sno}</td>
                 <td>${name}</td>
                 <td>${id}</td>
-                <td>${isAdmin}</td>
+                <td class='d-none d-sm-table-cell'>${isAdmin}</td>
                 <td>${profile}</td>
                 <td>
                     <a class="btn btn-sm btn-success" id="viewDetails" href="${githubUrl}" target="_blank">View Profile</a>
                 </td>
             </tr>`;
 
-    document.querySelector('tbody').innerHTML += tr;
-    counter++;
+        document.querySelector('tbody').innerHTML += tr;
+        counter++;
     });
 }
