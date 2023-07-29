@@ -1,29 +1,23 @@
-document.querySelector('button').addEventListener('click', fetchDetails);
-
-var counter = 1;
-
-function fetchDetails(e) {
-    e.preventDefault();
-
+// Fetch github users on page load.
+function fetchDetails() {
     fetch('https://api.github.com/users')
         .then(response => response.json())
         .then(jsonData => displayData(jsonData))
         .catch(error => console.log(error));
 }
+fetchDetails();
 
 function displayData(jsonData) {
-    console.log(jsonData);
-    jsonData.forEach(function (user) {
+    jsonData.forEach((user, index) => {
+        const sno = ++index;
+        const name = user.login;
+        const id = user.id;
+        const isAdmin = user.site_admin;
+        const profile = `<img src="${user.avatar_url}">`;
+        const githubUrl = user.html_url;
 
-        var sno = counter;
-        var name = user.login;
-        var id = user.id;
-        var isAdmin = user.site_admin;
-        var profile = `<img src="${user.avatar_url}">`;
-        var githubUrl = user.html_url;
-
-        var tr =
-            `<tr>
+        document.querySelector('tbody').innerHTML += `
+            <tr>
                 <td class='d-none d-sm-table-cell'>${sno}</td>
                 <td>${name}</td>
                 <td>${id}</td>
@@ -32,9 +26,7 @@ function displayData(jsonData) {
                 <td>
                     <a class="btn btn-sm btn-success" id="viewDetails" href="${githubUrl}" target="_blank">View Profile</a>
                 </td>
-            </tr>`;
-
-        document.querySelector('tbody').innerHTML += tr;
-        counter++;
+            </tr>
+    `;
     });
 }
